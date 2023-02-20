@@ -11,6 +11,7 @@ from .v1 import v1_router
 
 def create_app():
     models.Base.metadata.create_all(bind=engine)
+
     app = FastAPI(title="nearest-airport")
 
     app.add_middleware(

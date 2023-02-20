@@ -1,13 +1,14 @@
-# import pytest
-# from fastapi.testclient import TestClient
+import os
 
-# from app.api import create_app
+from fastapi import FastAPI
+
+os.environ["ENV"] = "testing"
+
+import pytest
+
+from app.api import create_app
 
 
-# @pytest.fixture(scope="session")
-# def client() -> TestClient:
-#     app = create_app()
-#     yield TestClient(app)
-
-
-# TODO: change test database to sqlite?
+@pytest.fixture(scope="session")
+def app() -> FastAPI:
+    yield create_app()

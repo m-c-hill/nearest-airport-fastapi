@@ -1,7 +1,9 @@
+import pickle
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.core import crud, schemas, services
+from app.core import crud, schemas
 from app.core.services import find_nearest_airport
 from app.extensions import get_db, rd
 
@@ -36,17 +38,17 @@ async def get_airport_by_id(airport_id: int, db: Session = Depends(get_db)):
     return schemas.AirportResponse(success=True, airport=airport)
 
 
-# @airport_router.get("/icao/{icao}", response_model=schemas.AirportResponse)
-# async def get_airport_by_icao(icao: str, db: Session = Depends(get_db)):
-#     airport = crud.get_airport_by_icao(icao.upper(), db)
+@airport_router.get("/icao/{icao}", response_model=schemas.AirportResponse)
+async def get_airport_by_icao(icao: str, db: Session = Depends(get_db)):
+    airport = crud.get_airport_by_icao(icao.upper(), db)
 
-#     if not airport:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail=f"Airport with ICAO code {icao.upper()} cannot be found",
-#         )
+    if not airport:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Airport with ICAO code {icao.upper()} cannot be found",
+        )
 
-#     return schemas.AirportResponse(success=True, airport=airport)
+    return schemas.AirportResponse(success=True, airport=airport)
 
 
 @airport_router.post("/nearest", response_model=schemas.NearestAirportResponse)
@@ -55,18 +57,21 @@ async def nearest_airport(
 ):
     # Validation of input coordinates handled by pydantic (see Coordinates in schemas.py)
 
-    # TODO: implement cache
-    # if rd.get("hash"):
-    #     return schemas.NearestAirportResponse(
-    #         success=True, nearest_airport=rd.get("hash"), distance=""
-    #     )
+    coordinates_hash = hash(tuple(coordinates))
+    if rd.get(coordinates_hash):
+        nearest_airport, distance_km = pickle.loads(rd.get(coordinates_hash))
+        return schemas.NearestAirportResponse(
+            success=True, nearest_airport=nearest_airport, distance=distance_km
+        )
 
     airports_df = crud.get_all_airports_df(db)
-    airport, distance_km = find_nearest_airport(airports_df, coordinates)
+    nearest_airport, distance_km = find_nearest_airport(airports_df, coordinates)
 
-    # Add data to cache
     five_minutes = 5 * 60
-    rd.set("hash", "result", ex=five_minutes)
+    rd.set(
+        coordinates_hash, pickle.dumps((nearest_airport, distance_km)), ex=five_minutes
+    )
+
     return schemas.NearestAirportResponse(
-        success=True, nearest_airport=airport, distance_km=distance_km
+        success=True, nearest_airport=nearest_airport, distance_km=distance_km
     )

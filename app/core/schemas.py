@@ -1,5 +1,6 @@
 from numpy import deg2rad
 from pydantic import BaseModel, Field
+from pydantic.dataclasses import dataclass
 
 from app.core import models
 
@@ -42,5 +43,5 @@ class Coordinates(BaseModel):
 
 
 class NearestAirportResponse(Response):
-    airport: Airport
+    nearest_airport: Airport
     distance_km: float

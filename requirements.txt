@@ -7,5 +7,4 @@ redis
 pandas
 sqlalchemy
 scikit-learn 
-scipy
-matplotlib
+python-dotenv

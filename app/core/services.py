@@ -1,19 +1,18 @@
 from math import asin, cos, sin, sqrt
 
+import numpy as np
 import pandas as pd
 from numpy import deg2rad
-
-import numpy as np
+from sklearn.neighbors import BallTree
 
 from app.core.schemas import Airport, Coordinates
-from sklearn.neighbors import BallTree, DistanceMetric
-
 
 RADIUS_EARTH_KM = 6371
 
 # =======================================
 #  Nearest airport- brute force approach
 # =======================================
+
 
 def find_nearest_airport(
     airports: pd.DataFrame, coordinates: Coordinates
@@ -79,12 +78,17 @@ def _calculate_haversine_distance(
 # =======================================
 
 
+# TODO: not yet implemented correctly
 def find_nearest_airport_balltree(airports: pd.DataFrame, coordinates: Coordinates):
-    airport_locations = airports[['latitude','longitude']].values
+    airport_locations = airports[["latitude", "longitude"]].values
     airport_locations_radians = deg2rad(airport_locations)
-    tree = BallTree(airport_locations_radians, leaf_size=15, metric='haversine')
-    random_geo = np.random.normal(loc=(coordinates.longitude_degrees, coordinates.latitude_degrees), scale=(0.1,0.1), size=(10000,2))
+    tree = BallTree(airport_locations_radians, leaf_size=15, metric="haversine")
+    random_geo = np.random.normal(
+        loc=(coordinates.longitude_degrees, coordinates.latitude_degrees),
+        scale=(0.1, 0.1),
+        size=(10000, 2),
+    )
     random_geo_radians = np.radians(random_geo)
-    distances, idx = tree.query( random_geo_radians, k=1)
+    distances, idx = tree.query(random_geo_radians, k=1)
 
-    nearest = airports.name[ idx[:,0] ]
+    nearest = airports.name[idx[:, 0]]
