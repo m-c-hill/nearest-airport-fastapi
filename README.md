@@ -23,3 +23,5 @@
 ## Future Improvements
 
 ## References
+
+https://geodesy.geology.ohio-state.edu/course/refpapers/00740128.pdf

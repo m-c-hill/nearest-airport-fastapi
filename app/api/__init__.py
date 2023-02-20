@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
 from app.core import models
+from app.core.crud import insert_airport_data
 from app.core.database import SessionLocal, engine
 
 from .v1 import v1_router
@@ -27,6 +28,9 @@ def create_app():
         """
         Check if airport table is populated. If not, execute query to insert UK airport data.
         """
-        pass
+        db = SessionLocal()
+        airport = db.query(models.Airport).first()
+        if not airport:
+            insert_airport_data(db)
 
     return app

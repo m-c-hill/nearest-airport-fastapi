@@ -1,7 +1,9 @@
 from redis import Redis
-from sqlalchemy import SessionLocal
+
+from app.core.database import SessionLocal
 
 rd = Redis(host="redis", port=6379, db=0)
+
 
 def get_db():
     try:
@@ -9,3 +11,8 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+# TODO
+def register_exception_handlers():
+    pass

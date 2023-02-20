@@ -5,3 +5,7 @@ psycopg2-binary==2.9.5
 uvicorn==0.20.0
 redis
 pandas
+sqlalchemy
+scikit-learn 
+scipy
+matplotlib
