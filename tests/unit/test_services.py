@@ -10,7 +10,7 @@ from app.core import schemas, services
 
 @pytest.fixture(scope="module")
 def airport_dataframe() -> pd.DataFrame:
-    return pd.read_csv("tests/data/uk_airport_coords.csv")
+    return pd.read_csv("tests/data/uk_airport_coords_test_data.csv")
 
 
 @pytest.fixture(scope="module")
