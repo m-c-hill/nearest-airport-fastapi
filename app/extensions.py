@@ -1,3 +1,7 @@
+"""
+FastAPI extension (redis and database)
+"""
+
 from redis import Redis
 
 from app.core.database import SessionLocal
@@ -11,8 +15,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-# TODO
-def register_exception_handlers():
-    pass

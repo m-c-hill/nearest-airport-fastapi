@@ -1,3 +1,7 @@
+"""
+SQLAlchemy models, representing tables in the application's database.
+"""
+
 from sqlalchemy import Column, Float, Integer, String
 
 from .database import Base

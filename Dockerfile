@@ -3,7 +3,7 @@
 # pull the official docker image
 FROM python:3.10.6-slim
 
-# set work directory
+# set working directory
 WORKDIR /app
 
 # set env variables

@@ -1,3 +1,7 @@
+"""
+CRUD functionality for interacting with the application's database.
+"""
+
 import pathlib
 
 import pandas as pd

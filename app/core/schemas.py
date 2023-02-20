@@ -1,8 +1,9 @@
+"""
+Pydantic schemas, used to model airport, coordinate and response objects.
+"""
+
 from numpy import deg2rad
 from pydantic import BaseModel, Field
-from pydantic.dataclasses import dataclass
-
-from app.core import models
 
 
 class Response(BaseModel):

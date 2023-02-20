@@ -1,3 +1,11 @@
+"""
+Airport routes for the airports router. Routes include:
+    - GET /api/v1/airports
+    - GET /api/v1/airports/<id:int>
+    - GET /api/v1/airports/icao/<icao_id:string>
+    - POST /api/v1/airports/nearest
+"""
+
 import pickle
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -12,6 +20,9 @@ airport_router = APIRouter(prefix="/airports", tags=["airports"])
 
 @airport_router.get("/", response_model=schemas.AirportsResponse)
 async def get_airports(db: Session = Depends(get_db)):
+    """
+    Return a list of all airports currently stored in the 'airports' table
+    """
     airports = crud.get_all_airports(db)
 
     if not airports:
@@ -27,6 +38,9 @@ async def get_airports(db: Session = Depends(get_db)):
 
 @airport_router.get("/{airport_id}", response_model=schemas.AirportResponse)
 async def get_airport_by_id(airport_id: int, db: Session = Depends(get_db)):
+    """
+    Return an airport for a given ID
+    """
     airport = crud.get_airport_by_id(airport_id, db)
 
     if not airport:
@@ -40,6 +54,9 @@ async def get_airport_by_id(airport_id: int, db: Session = Depends(get_db)):
 
 @airport_router.get("/icao/{icao}", response_model=schemas.AirportResponse)
 async def get_airport_by_icao(icao: str, db: Session = Depends(get_db)):
+    """
+    Return an airport for a given ICAO aiport code
+    """
     airport = crud.get_airport_by_icao(icao.upper(), db)
 
     if not airport:
@@ -55,6 +72,9 @@ async def get_airport_by_icao(icao: str, db: Session = Depends(get_db)):
 async def nearest_airport(
     coordinates: schemas.Coordinates, db: Session = Depends(get_db)
 ):
+    """
+    Return the nearest airport to a coordinate, defined in the post body
+    """
     # Validation of input coordinates handled by pydantic (see Coordinates in schemas.py)
 
     coordinates_hash = hash(tuple(coordinates))

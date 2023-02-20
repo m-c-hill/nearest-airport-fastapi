@@ -1,16 +1,21 @@
+"""
+FastAPI app factory for creating and configuring a FastAPI app.
+"""
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import text
 
-from app.core import models
-from app.core.crud import insert_airport_data
+from app.core import models, crud
 from app.core.database import SessionLocal, engine
 
 from .v1 import v1_router
 
 
 def create_app():
-    models.Base.metadata.create_all(bind=engine)
+    """
+    Create FastAPI app
+    """
+    models.Base.metadata.create_all(bind=engine)  # create db tables
 
     app = FastAPI(title="nearest-airport")
 
@@ -32,6 +37,6 @@ def create_app():
         db = SessionLocal()
         airport = db.query(models.Airport).first()
         if not airport:
-            insert_airport_data(db)
+            crud.insert_airport_data(db)
 
     return app

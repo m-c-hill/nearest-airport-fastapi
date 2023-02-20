@@ -1,3 +1,11 @@
+"""
+Service layer for the API with business logic used to manipulate a Pandas dataframe containing UK Airport
+information and return the nearest airport to an input coordinate.
+
+Both a brute force and balltree nearest neighbour approach were taken - the API currently relies on the 
+brute force method as this has had more rigerous testing carried out on it.
+"""
+
 from math import asin, cos, sin, sqrt
 
 import numpy as np
@@ -18,8 +26,9 @@ def find_nearest_airport(
     airports: pd.DataFrame, coordinates: Coordinates
 ) -> tuple[Airport, float]:
     """
-    Return the geospatially nearest airport to a pair of input coordinates from a dataset containing
-    airport locations.
+    Return the geospatially nearest airport, and corresponding distance, to a pair of input coordinates
+    from a dataset containing airport locations. 'Nearest' is defined 'as the crow flies', following
+    the curvature of the Earth.
     """
     _convert_degrees_to_radians(airports)
     _add_haversine_distance(
@@ -64,7 +73,7 @@ def _calculate_haversine_distance(
     lon1: float, lat1: float, lon2: float, lat2: float
 ) -> float:
     """
-    Calculate the great-circle distance in kilometres between two points on the earth (radians) using the
+    Calculate the great-circle distance in kilometres between two points on the Earth (radians) using the
     haversine formula.
     """
     dlon = lon2 - lon1
@@ -78,7 +87,7 @@ def _calculate_haversine_distance(
 # =======================================
 
 
-# TODO: not yet implemented correctly
+# TODO: not yet implemented correctly, API is relying on brute force approach for now
 def find_nearest_airport_balltree(airports: pd.DataFrame, coordinates: Coordinates):
     airport_locations = airports[["latitude", "longitude"]].values
     airport_locations_radians = deg2rad(airport_locations)

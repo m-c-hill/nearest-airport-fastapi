@@ -1,3 +1,8 @@
+"""
+Configuration class for the app, with settings retrieved from environment variables, set using the .env 
+file in the root directory.
+"""
+
 from dotenv import load_dotenv
 from pydantic import BaseSettings, Field
 

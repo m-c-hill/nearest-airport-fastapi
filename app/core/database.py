@@ -1,3 +1,8 @@
+"""
+Initialise the application's database. Development environment connects to a Postgres server, while
+a testing environment will create a local SQLite database in the tests/data directory.
+"""
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
