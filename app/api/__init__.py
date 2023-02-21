@@ -5,7 +5,7 @@ FastAPI app factory for creating and configuring a FastAPI app.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.core import models, crud
+from app.core import crud, models
 from app.core.database import SessionLocal, engine
 
 from .v1 import v1_router
