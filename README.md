@@ -195,7 +195,10 @@ Response:
     "latitude": 51.874722,
     "longitude": -0.368333
   },
-  "distance_km": 14.6968
+  "distance_km": 14.6968,
+  "input_coordinates": {
+    "longitude_degrees": 52,
+    "latitude_degrees": -0.3
 }
 ```
 
@@ -203,18 +206,51 @@ Response:
 
 ### Haversine Formula
 
-\# TODO
+The haversine formula is a mathematical formula that is used to calculate the distance between two points on the surface of a sphere, such as the Earth [1]. It takes into account the curvature of the Earth and is particularly useful for determining distances between two points specified by their longitude and latitude coordinates.
+
+The haversine formula is based on the law of haversines, states that the haversine between two points on a sphere, A and B, can be calculated as follows:
+
+![haversine](<https://latex.codecogs.com/png.image?\dpi{200}hav(\theta)%20=%20hav(\Delta_{\phi})%20+%20\cos(\phi_1)\cos(\phi_2)hav(\Delta_{\lambda})>)
+
+with:
+
+![hav_theta](<https://latex.codecogs.com/png.image?\dpi{150}hav(\theta)%20=%20sin^{2}\left%20(%20\frac{x}{2}%20\right%20)>)
+
+![](https://latex.codecogs.com/png.image?\dpi{150}\Delta_{\phi}%20=%20\phi_2%20-%20\phi_1)
+
+![](https://latex.codecogs.com/png.image?\dpi{150}\Delta_{\lambda}%20=%20\lambda_2%20-%20\lambda_1)
+
+and where:
+
+`λ1, λ2` are the longitudes of points A and B, respectively,
+
+`φ1, φ2` are the latitudes of points A and B, respectively,
+
+`θ` is the central angle between the two points, A and B, on the sphere.
+
+![haversine](https://images.prismic.io/sketchplanations/e1e45776-aa40-4806-820e-b5c5b8050f4b_SP+687+-+The+haversine+formula.png?auto=compress,format)
+
+To calculate the distance between two points given their longitude and latitude coordinates in radians, the haversine formula can be rearranged as follows:
+
+![haversine_distance](https://latex.codecogs.com/png.image?\dpi{150}d%20=%202r\sqrt{sin^2\left(\frac{\Delta_{\theta}}{2}\right)%20+%20\cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta_{\lambda}}{2}\right)})
+
+where:
+
+`d` is the distance between the two points in kilometers
+`r` is the radius of the Earth (mean radius = 6,371km [2])
 
 ## Future Improvements
 
-\# TODO
-
-- see linkedin message
-- ...
-- ...
+- Improve the algorithm used to find the nearest airport. The method currently uses a brute force approach to calculate the distance to each airport before selecting the airport with the smallest distance. This could potentially be improved by using a nearest neighbour search with [scikit-learn's balltree](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.BallTree.html). However, given the relatively small sample size of UK airports, it did not feel necessary to implement such a method.
+- Implement an API throttler to rate limit endpoints by IP address using redis. A simple example can be found in the [following Medium article](https://sayanc20002.medium.com/api-throttling-using-redis-and-fastapi-dockerized-98a50f9495c).
+- Add custom error handlers and add Pydantic response models to standardise the API's error responses.
+- Invert database dependency with a repository layer between the models and the database.
+- Update Swagger documentation with more informative descriptions.
+- Implement a simple frontend which shows the user's location and their nearest airport on a map.
 
 ## References
 
-\# TODO
+[1] Upadhyay, A., 2019. _Haversine Formula – Calculate geographic distance on earth_ [Online]. IGISMAP. Available from: https://www.igismap.com/haversine-formula-calculate-geographic-distance-earth/ [Accessed 19 February 2023].
 
-https://geodesy.geology.ohio-state.edu/course/refpapers/00740128.pdf
+
+[2] Moritz, H. _Geodetic Reference System 1980_. Journal of Geodesy 74, 128–133 (2000). Available from: https://geodesy.geology.ohio-state.edu/course/refpapers/00740128.pdf [Accessed 19 February 2023].

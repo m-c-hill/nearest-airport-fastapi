@@ -93,5 +93,8 @@ async def nearest_airport(
     )
 
     return schemas.NearestAirportResponse(
-        success=True, nearest_airport=nearest_airport, distance_km=distance_km
+        success=True,
+        nearest_airport=nearest_airport,
+        distance_km=distance_km,
+        input_coordinates=coordinates,
     )

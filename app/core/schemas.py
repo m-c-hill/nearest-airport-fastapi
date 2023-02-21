@@ -46,3 +46,4 @@ class Coordinates(BaseModel):
 class NearestAirportResponse(Response):
     nearest_airport: Airport
     distance_km: float
+    input_coordinates: Coordinates

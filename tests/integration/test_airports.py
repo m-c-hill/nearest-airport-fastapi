@@ -99,6 +99,7 @@ def test_nearest_airport_honington(mocker, app, honington_airport):
         assert response_json["success"] == True
         assert response_json["nearest_airport"] == honington_airport
         assert response_json["distance_km"] == pytest.approx(5.609, 0.01)
+        assert response_json["input_coordinates"] == coordinates
 
 
 def test_nearest_airport_heathrow(mocker, app, heathrow_airport):
@@ -112,6 +113,7 @@ def test_nearest_airport_heathrow(mocker, app, heathrow_airport):
         assert response_json["success"] == True
         assert response_json["nearest_airport"] == heathrow_airport
         assert response_json["distance_km"] == pytest.approx(13.486, 0.01)
+        assert response_json["input_coordinates"] == coordinates
 
 
 def test_nearest_airport_invalid_coordinates(mocker, app, invalid_coordinates_response):
