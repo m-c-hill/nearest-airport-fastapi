@@ -232,7 +232,7 @@ and where:
 
 To calculate the distance between two points given their longitude and latitude coordinates in radians, the haversine formula can be rearranged as follows:
 
-![haversine_distance](https://latex.codecogs.com/png.image?\dpi{150}d%20=%202r\sqrt{sin^2\left(\frac{\Delta_{\theta}}{2}\right)%20+%20\cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta_{\lambda}}{2}\right)})
+![haversine_distance](https://latex.codecogs.com/gif.image?\dpi{150}d%20=%202r\sqrt{sin^2\left(\frac{\Delta_{\theta}}{2}\right)%20+%20\cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta_{\lambda}}{2}\right)})
 
 where:
 
