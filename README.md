@@ -232,7 +232,7 @@ and where:
 
 To calculate the distance between two points given their longitude and latitude coordinates in radians, the haversine formula can be rearranged as follows:
 
-![haversine_distance](https://latex.codecogs.com/gif.image?\dpi{150}d%20=%202r\sqrt{sin^2\left(\frac{\Delta_{\theta}}{2}\right)%20+%20\cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta_{\lambda}}{2}\right)})
+![haversine_distance](<https://latex.codecogs.com/svg.image?\dpi{150}d%20=%202r\sqrt{sin^2\left(\frac{\Delta_{\theta}}{2}\right)%20+%20\cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta_{\lambda}}{2}\right)}>)
 
 where:
 
@@ -251,6 +251,5 @@ where:
 ## References
 
 [1] Upadhyay, A., 2019. _Haversine Formula – Calculate geographic distance on earth_ [Online]. IGISMAP. Available from: https://www.igismap.com/haversine-formula-calculate-geographic-distance-earth/ [Accessed 19 February 2023].
-
 
 [2] Moritz, H. _Geodetic Reference System 1980_. Journal of Geodesy 74, 128–133 (2000). Available from: https://geodesy.geology.ohio-state.edu/course/refpapers/00740128.pdf [Accessed 19 February 2023].
