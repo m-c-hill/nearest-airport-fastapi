@@ -76,14 +76,20 @@ async def nearest_airport(
     Return the nearest airport to a coordinate, defined in the post body
     """
     # Validation of input coordinates handled by pydantic (see Coordinates in schemas.py)
-
     coordinates_hash = hash(tuple(coordinates))
     if rd.get(coordinates_hash):
+        print("Cache hit!")
         nearest_airport, distance_km = pickle.loads(rd.get(coordinates_hash))
         return schemas.NearestAirportResponse(
-            success=True, nearest_airport=nearest_airport, distance=distance_km
+            success=True,
+            nearest_airport=nearest_airport,
+            distance_km=distance_km,
+            input_coordinates=coordinates,
         )
 
+    # TODO: print statements have been implemented to save time and are for testing (test_redis.py) These
+    #   should be replaced with proper logging when deploying to production.
+    print("Calculating nearest airport!")
     airports_df = crud.get_all_airports_df(db)
     nearest_airport, distance_km = find_nearest_airport(airports_df, coordinates)
 

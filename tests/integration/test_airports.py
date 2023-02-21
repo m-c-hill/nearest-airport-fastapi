@@ -1,9 +1,5 @@
-import fakeredis
 import pytest
 from fastapi.testclient import TestClient
-
-redis_mock = fakeredis.FakeStrictRedis(version=6)
-
 
 # ========================
 #  Airport fixtures
@@ -88,7 +84,7 @@ def test_get_airport_by_id(app, honington_airport):
         assert response_json["airport"] == honington_airport
 
 
-def test_nearest_airport_honington(mocker, app, honington_airport):
+def test_nearest_airport_honington(mocker, redis_mock, app, honington_airport):
     mocker.patch("app.api.v1.airports.rd", redis_mock)
     coordinates = {"latitude_degrees": 52.327640, "longitude_degrees": 0.851955}
     with TestClient(app) as client:
@@ -102,7 +98,7 @@ def test_nearest_airport_honington(mocker, app, honington_airport):
         assert response_json["input_coordinates"] == coordinates
 
 
-def test_nearest_airport_heathrow(mocker, app, heathrow_airport):
+def test_nearest_airport_heathrow(mocker, redis_mock, app, heathrow_airport):
     mocker.patch("app.api.v1.airports.rd", redis_mock)
     coordinates = {"latitude_degrees": 51.408314, "longitude_degrees": -0.301567}
     with TestClient(app) as client:
@@ -116,7 +112,9 @@ def test_nearest_airport_heathrow(mocker, app, heathrow_airport):
         assert response_json["input_coordinates"] == coordinates
 
 
-def test_nearest_airport_invalid_coordinates(mocker, app, invalid_coordinates_response):
+def test_nearest_airport_invalid_coordinates(
+    mocker, redis_mock, app, invalid_coordinates_response
+):
     mocker.patch("app.api.v1.airports.rd", redis_mock)
     invalid_coordinatees = {"latitude_degrees": 100, "longitude_degrees": -0.301567}
     with TestClient(app) as client:

@@ -180,7 +180,7 @@ Response:
 Request:
 
 ```bash
-curl http://127.0.0.1:8008/api/v1.0/airports/nearest -X POST -H "Content-Type: application/json" -d '{"longitude_degrees":52, "latitude_degrees": -0.3}'
+curl http://127.0.0.1:8008/api/v1.0/airports/nearest -X POST -H "Content-Type: application/json" -d '{"longitude_degrees":-0.3, "latitude_degrees": 52}'
 ```
 
 Response:
@@ -197,8 +197,8 @@ Response:
   },
   "distance_km": 14.6968,
   "input_coordinates": {
-    "longitude_degrees": 52,
-    "latitude_degrees": -0.3
+    "longitude_degrees": -0.3,
+    "latitude_degrees": 52
 }
 ```
 
